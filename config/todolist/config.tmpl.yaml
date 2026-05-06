@@ -1,0 +1,60 @@
+app:
+  hostname: ${HOSTNAME:"todolist"}
+
+logger:
+  level: info
+  format: json
+
+servers:
+  http:
+    addr: :8080
+  system:
+    addr: :8082
+
+subscriber:
+  analytic_events:
+    enabled: true
+    poll_records: 1
+    topics:
+      - ${ANALYTIC_TOPIC:"analytic"}
+
+max_bot:
+  token: ${MAX_BOT_TOKEN:"token"}
+  url: ${MAXBOT_URL:"http://localhost:8080"}
+  path: ${MAXBOT_PATH:"/webhook"}
+  subscription_type: ${MAXBOT_SUBSCRIPTION_TYPE:"poll"}
+
+analytic:
+  enabled: ${ANALYTIC_ENABLED:"false"}
+  topic: ${ANALYTIC_TOPIC:"analytic"}
+  extra_fields:
+    app: todolist
+
+redis:
+  main:
+    key_prefix: "todolist"
+    addrs: ['${REDIS_ADDRS:"127.0.0.1:6379"}']
+
+postgres:
+  sel:
+    database_url: ${POSTGRES_CONNECTION_STRING_SEL:"postgres://postgres:postgres@localhost:5432/stg?default_query_exec_mode=exec"}
+  upd:
+    database_url: ${POSTGRES_CONNECTION_STRING_UPD:"postgres://postgres:postgres@localhost:5432/stg?default_query_exec_mode=exec"}
+
+migrate:
+  pool_name: upd
+
+kafka:
+  analytic:
+    seeds:
+      - 127.0.0.1:19092
+    allow_auto_topic_creation: true
+    producer:
+      disable_idempotent_write: true
+
+telemetry:
+  collector:
+    enabled: true
+    endpoint: localhost:4317
+    endpoint_type: grpc
+    sampling_ratio: 1

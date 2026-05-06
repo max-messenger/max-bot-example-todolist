@@ -1,0 +1,197 @@
+basePath: /
+definitions:
+  domain.Todo:
+    properties:
+      created:
+        type: string
+      done:
+        type: boolean
+      id:
+        format: int64
+        type: integer
+      message:
+        type: string
+      userID:
+        format: int64
+        type: integer
+    type: object
+  todolistctrl.createRequest:
+    properties:
+      message:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  todolistctrl.createResponse:
+    properties:
+      id:
+        type: integer
+    type: object
+  todolistctrl.deleteRequest:
+    properties:
+      id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  todolistctrl.listResponse:
+    properties:
+      todos:
+        items:
+          $ref: '#/definitions/domain.Todo'
+        type: array
+    type: object
+  todolistctrl.toggleRequest:
+    properties:
+      done:
+        type: boolean
+      id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a TODOLIST API.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: TODOLIST API
+  version: "1.0"
+paths:
+  /v1/todos/create:
+    post:
+      consumes:
+      - application/json
+      description: create new todo record
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        schema:
+          $ref: '#/definitions/todolistctrl.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/todolistctrl.createResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: add todo
+      tags:
+      - todo
+  /v1/todos/delete:
+    post:
+      consumes:
+      - application/json
+      description: delete by user_id and id
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        schema:
+          $ref: '#/definitions/todolistctrl.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            format: int64
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: delete todo
+      tags:
+      - todo
+  /v1/todos/list:
+    post:
+      consumes:
+      - application/json
+      description: get all todo records
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/todolistctrl.listResponse'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: get todo list
+      tags:
+      - todo
+  /v1/todos/toggle:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: request body
+        in: body
+        name: request
+        schema:
+          $ref: '#/definitions/todolistctrl.toggleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            format: int64
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: toggle todo
+      tags:
+      - todo
+swagger: "2.0"

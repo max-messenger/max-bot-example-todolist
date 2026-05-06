@@ -1,0 +1,2 @@
+GET {{host}}/v1/todos/list
+Content-Type: application/json

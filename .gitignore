@@ -1,0 +1,14 @@
+.DS_Store
+.vscode
+__debug_bin
+*.out
+bin
+
+/dev
+/vendor
+
+*.code-workspace
+
+*.local.yaml
+*.pem
+*.key
